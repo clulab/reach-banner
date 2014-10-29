@@ -5,6 +5,7 @@ package banner;
 
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.Properties;
 
 import banner.processing.ParenthesisPostProcessor;
@@ -64,58 +65,60 @@ public class BannerProperties
 	 * @return An instance of {@link BannerProperties} which can be queried for
 	 *         configuration parameters
 	 */
-	public static BannerProperties load(String filename)
-	{
+	public static BannerProperties load(String filename) {
+    try {
+      Properties properties = new Properties();
+      FileInputStream propertiesInputStream = new FileInputStream(filename);
+      properties.load(propertiesInputStream);
+      propertiesInputStream.close();
+      BannerProperties bp = load(properties);
+      return bp;
+    } catch(Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
 
-		Properties properties = new Properties();
-		BannerProperties bannerProperties = new BannerProperties();
-		try
-		{
-			FileInputStream propertiesInputStream = new FileInputStream(filename);
-			properties.load(propertiesInputStream);
-			propertiesInputStream.close();
-			String lemmatiserDataDirectory = properties.getProperty("lemmatiserDataDirectory");
-			if (lemmatiserDataDirectory != null)
-				bannerProperties.lemmatiser = new EngLemmatiser(lemmatiserDataDirectory, false, true);
-			String posTaggerDataDirectory = properties.getProperty("posTaggerDataDirectory");
-			if (posTaggerDataDirectory != null)
-			{
-				String posTagger = properties.getProperty("posTagger", HeppleTagger.class.getName());
-				if (posTagger.equals(HeppleTagger.class.getName()))
-					bannerProperties.posTagger = new HeppleTagger(posTaggerDataDirectory);
-				else if (posTagger.equals(MedPostTagger.class.getName()))
-					bannerProperties.posTagger = new MedPostTagger(posTaggerDataDirectory);
-				else
-					throw new IllegalArgumentException("Unknown POS tagger type: " + posTagger);
-			}
-			String tokenizer = properties.getProperty("tokenizer", SimpleTokenizer.class.getName());
-			bannerProperties.tokenizer = (Tokenizer) Class.forName(tokenizer).newInstance();
-			// Note assumption that the tokenizer constructor takes no
-			// parameters
-			bannerProperties.tagFormat = TagFormat.valueOf(properties.getProperty("tagFormat", "IOB"));
-			if (Boolean.parseBoolean(properties.getProperty("useParenthesisPostProcessing", "true")))
-				bannerProperties.postProcessor = new ParenthesisPostProcessor();
-			bannerProperties.useNumericNormalization = Boolean.parseBoolean(properties.getProperty("useNumericNormalization", "true"));
-			bannerProperties.order = Integer.parseInt(properties.getProperty("order", "2"));
-			bannerProperties.useFeatureInduction = Boolean.parseBoolean(properties.getProperty("useFeatureInduction", "false"));
-			bannerProperties.textDirection = TextDirection.valueOf(properties.getProperty("textDirection", "Forward"));
-			String dictionaryFileName = properties.getProperty("dictionary");
-			if (dictionaryFileName != null)
-			{
-				// FIXME This is a temporary hack
-				DictionaryTagger dictTagger = new GeneDictionaryTagger(bannerProperties.tokenizer, true);
-				FileReader reader = new FileReader(dictionaryFileName);
-				dictTagger.add(reader, MentionType.getType("GENE"));
-				reader.close();
-				System.out.println("Dict size - " + dictTagger.size());
-				bannerProperties.preTagger = dictTagger;
-			}
-			bannerProperties.regexFilename = properties.getProperty("regexFilename");
-		} catch (Exception e)
-		{
-			throw new RuntimeException(e);
-		}
-		return bannerProperties;
+  public static BannerProperties load(Properties properties) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    BannerProperties bannerProperties = new BannerProperties();
+    String lemmatiserDataDirectory = properties.getProperty("lemmatiserDataDirectory");
+    if (lemmatiserDataDirectory != null)
+      bannerProperties.lemmatiser = new EngLemmatiser(lemmatiserDataDirectory, false, true);
+    String posTaggerDataDirectory = properties.getProperty("posTaggerDataDirectory");
+    if (posTaggerDataDirectory != null)
+    {
+      String posTagger = properties.getProperty("posTagger", HeppleTagger.class.getName());
+      if (posTagger.equals(HeppleTagger.class.getName()))
+        bannerProperties.posTagger = new HeppleTagger(posTaggerDataDirectory);
+      else if (posTagger.equals(MedPostTagger.class.getName()))
+        bannerProperties.posTagger = new MedPostTagger(posTaggerDataDirectory);
+      else
+        throw new IllegalArgumentException("Unknown POS tagger type: " + posTagger);
+    }
+    String tokenizer = properties.getProperty("tokenizer", SimpleTokenizer.class.getName());
+    bannerProperties.tokenizer = (Tokenizer) Class.forName(tokenizer).newInstance();
+    // Note assumption that the tokenizer constructor takes no
+    // parameters
+    bannerProperties.tagFormat = TagFormat.valueOf(properties.getProperty("tagFormat", "IOB"));
+    if (Boolean.parseBoolean(properties.getProperty("useParenthesisPostProcessing", "true")))
+      bannerProperties.postProcessor = new ParenthesisPostProcessor();
+    bannerProperties.useNumericNormalization = Boolean.parseBoolean(properties.getProperty("useNumericNormalization", "true"));
+    bannerProperties.order = Integer.parseInt(properties.getProperty("order", "2"));
+    bannerProperties.useFeatureInduction = Boolean.parseBoolean(properties.getProperty("useFeatureInduction", "false"));
+    bannerProperties.textDirection = TextDirection.valueOf(properties.getProperty("textDirection", "Forward"));
+    String dictionaryFileName = properties.getProperty("dictionary");
+    if (dictionaryFileName != null)
+    {
+      // FIXME This is a temporary hack
+      DictionaryTagger dictTagger = new GeneDictionaryTagger(bannerProperties.tokenizer, true);
+      FileReader reader = new FileReader(dictionaryFileName);
+      dictTagger.add(reader, MentionType.getType("GENE"));
+      reader.close();
+      System.out.println("Dict size - " + dictTagger.size());
+      bannerProperties.preTagger = dictTagger;
+    }
+    bannerProperties.regexFilename = properties.getProperty("regexFilename");
+
+    return bannerProperties;
 	}
 
 	/**
