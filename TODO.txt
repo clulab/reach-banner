@@ -1,0 +1,9 @@
+Make sbt project
+- remove unused code, see tmp/
+- code from src/ to src/main/java
+- dict, nlpdata, regex.txt, banner.properties, banner_model.dat under banner_data/
+- make fat jar with all jars in libs
+
+Add code to:
+- train with default props
+- test with default props

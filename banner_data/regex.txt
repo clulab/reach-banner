@@ -1,0 +1,24 @@
+ALPHA	[A-Za-z]+
+INITCAPS	[A-Z].*
+UPPER-LOWER	[A-Z][a-z].*
+LOWER-UPPER	[a-z]+[A-Z]+.*
+ALLCAPS	[A-Z]+
+MIXEDCAPS	[A-Z][a-z]+[A-Z][A-Za-z]*
+SINGLECHAR	[A-Za-z]
+SINGLEDIGIT	[0-9]
+DOUBLEDIGIT	[0-9][0-9]
+NUMBER	[0-9,]+
+HASDIGIT	.*[0-9].*
+ALPHANUMERIC	.*[0-9].*[A-Za-z].*
+ALPHANUMERIC	.*[A-Za-z].*[0-9].*
+LETTERS_NUMBERS	[0-9]+[A-Za-z]+
+NUMBERS_LETTERS	[A-Za-z]+[0-9]+
+HAS_DASH	.*-.*
+HAS_QUOTE	.*'.*
+HAS_SLASH	.*/.*
+REALNUMBER	(-|\+)?[0-9,]+(\.[0-9]*)?%?
+REALNUMBER	(-|\+)?[0-9,]*(\.[0-9]+)?%?
+START_MINUS	-.*
+START_PLUS	\+.*
+END_PERCENT	.*%
+
