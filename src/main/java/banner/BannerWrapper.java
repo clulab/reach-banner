@@ -35,11 +35,15 @@ public class BannerWrapper {
   }
 
   public List<Mention> tag(String sentenceText) {
+    String originalText = new String(sentenceText);
     Sentence sentence = new Sentence(sentenceText);
     tokenizer.tokenize(sentence);
     tagger.tag(sentence);
     if (postProcessor != null)
       postProcessor.postProcess(sentence);
+    // make sure the text of the sentence did not change!
+    //   if it did, it is impossible to align the mentions with the original text...
+    assert(originalText.equals(sentence.getText()));
     return sentence.getMentions();
   }
 
