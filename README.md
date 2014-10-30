@@ -4,6 +4,12 @@ banner
 A fork of the Banner Named Entity Recognizer from Arizona State.
 This is based on a CVS snapshot from 11/27/2014.
 
+Installation instructions
+-------------------------
+
+* sbt publishM2
+* Add BANNER_DATA to your environment pointing to the absolute path to banner_data/ directory in this package.
+
 Changes to the original code
 ----------------------------
 
