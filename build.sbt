@@ -18,6 +18,10 @@ addArtifact(Artifact("banner", "dragontool"), dragontoolTask)
 
 addArtifact(Artifact("banner", "heptag"), heptagTask)
 
+publishArtifact in (Compile, packageSrc) := false
+
+publishArtifact in (Compile, packageDoc) := false
+
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.0.M6-SNAP17" % "test",
   "junit" % "junit" % "4.10",
