@@ -1,6 +1,5 @@
 package banner;
 
-import banner.processing.ParenthesisPostProcessor;
 import banner.processing.PostProcessor;
 import banner.tagging.CRFTagger;
 import banner.tagging.Mention;
@@ -30,6 +29,7 @@ public class BannerWrapper {
       tagger = CRFTagger.load(new File(props.getProperty("model")), properties.getLemmatiser(), properties.getPosTagger());
       postProcessor = properties.getPostProcessor();
     } catch(Exception e) {
+      // e.printStackTrace();
       throw new RuntimeException(e);
     }
   }
@@ -43,9 +43,30 @@ public class BannerWrapper {
     return sentence.getMentions();
   }
 
+  private static String BANNER_ENV = "BANNER_DATA";
+
   static Properties mkDefaultProps() {
     Properties props = new Properties();
-    // TODO
+    String bannerData = System.getenv(BANNER_ENV);
+    if(bannerData == null) {
+      throw new RuntimeException("ERROR: BannerWrapper requires the environment variable " + BANNER_ENV + "!");
+    }
+
+    props.setProperty("lemmatiserDataDirectory", bannerData + "/nlpdata/lemmatiser");
+    props.setProperty("posTaggerDataDirectory", bannerData + "/nlpdata/tagger");
+    props.setProperty("posTagger", "dragon.nlp.tool.HeppleTagger");
+    props.setProperty("tokenizer", "banner.tokenization.SimpleTokenizer");
+    props.setProperty("tagFormat", "IOB");
+    props.setProperty("useNumericNormalization", "true");
+    props.setProperty("useParenthesisPostProcessing", "true");
+    props.setProperty("order", "2");
+    props.setProperty("dictionary", bannerData + "/dict/single.txt");
+    props.setProperty("regexFilename", bannerData + "/regex.txt");
+    props.setProperty("useFeatureInduction", "false");
+    props.setProperty("textDirection", "Forward");
+
+    props.setProperty("model", bannerData + "/banner_model.dat");
+
     return props;
   }
 }
