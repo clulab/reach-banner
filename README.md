@@ -7,7 +7,7 @@ This is based on a CVS snapshot from 11/27/2014.
 Installation instructions
 -------------------------
 
-* sbt publishM2
+* sbt publish-local
 * Add BANNER_DATA to your environment pointing to the absolute path to banner_data/ directory in this package.
 
 Changes to the original code
