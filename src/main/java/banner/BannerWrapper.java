@@ -43,7 +43,9 @@ public class BannerWrapper {
       postProcessor.postProcess(sentence);
     // make sure the text of the sentence did not change!
     //   if it did, it is impossible to align the mentions with the original text...
-    assert(originalText.equals(sentence.getText()));
+    if(! originalText.equals(sentence.getText())) {
+      throw new RuntimeException("ERROR: input sentence [" + originalText + "] is different from sentence output by Banner [" + sentence.getText() + "]!" );
+    }
     return sentence.getMentions();
   }
 
