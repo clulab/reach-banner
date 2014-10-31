@@ -1,7 +1,7 @@
 banner
 ======
 
-A fork of the Banner Named Entity Recognizer from Arizona State.
+A fork of the BANNER Named Entity Recognizer from Arizona State.
 This is based on a CVS snapshot from 11/27/2014.
 
 Installation instructions
@@ -21,3 +21,9 @@ The following changes were made to the original Banner code:
 * Added the BannerWrapper class, which creates a Banner NER with default options, based on the banner_data directory.
 * Added the BannerProperties BannerProperties.load(Properties properties) method, which is needed by the BannerWrapper class.
 
+Authors
+-------
+
+BANNER was created by Bob Leaman and is advised by Dr. Graciela Gonzalez, both members of the BioAI lab at Arizona State University. See the Banner project web page for more details: http://banner.sourceforge.net/. This project is distributed under the BANNER original license (see license.txt).
+
+The packaging as a sbt project was implemented by Mihai Surdeanu and Marco Valenzuela.
