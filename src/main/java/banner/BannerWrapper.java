@@ -38,6 +38,13 @@ public class BannerWrapper {
     String originalText = new String(sentenceText);
     Sentence sentence = new Sentence(sentenceText);
     tokenizer.tokenize(sentence);
+
+    //System.out.println("original text: " + sentenceText);
+    //System.out.println("Sentence text: " + sentence.getText());
+    //for(Token t: sentence.getTokens()) {
+    //  System.out.println("\t" + t.getText() + " " + t.getStart());
+    //}
+
     tagger.tag(sentence);
     if (postProcessor != null)
       postProcessor.postProcess(sentence);

@@ -24,5 +24,16 @@ public class TestBanner {
       assertEquals(m.getStartChar(), 67);
       assertEquals(m.getEndChar(), 72);
     }
+
+    mentions = banner.tag("Only p105 and human c-Rel (hc-Rel) are common to complexes precipitated with antiserum directed against either p105 or hc-Rel.");
+    int i = 0;
+    for(Mention m: mentions) {
+      System.out.println("\tMENTION: " + m.getText() + " " + m.getType() + " " + m.getStartChar() + " " + m.getEndChar());
+      if(i == 0) {
+        assertEquals(m.getText(), "p105");
+        assertEquals(m.getStartChar(), 5);
+      }
+      i ++;
+    }
   }
 }
