@@ -6,6 +6,7 @@ import banner.tagging.Mention;
 import banner.tokenization.Tokenizer;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -56,15 +57,40 @@ public class BannerWrapper {
     return sentence.getMentions();
   }
 
-  private static String BANNER_ENV = "BANNER_DATA";
+  private static final String BANNER_ENV = "BANNER_DATA";
+  private static final String BANNER_MODEL = "banner_model.dat";
+
+  static String findPath() {
+    ArrayList<String> paths = new ArrayList<String>();
+
+    String bannerData = System.getenv(BANNER_ENV);
+    if(bannerData != null) {
+      System.err.println("BannerWrapper: $" + BANNER_ENV + " is set to " + bannerData + ". Will attempt to use this.");
+      paths.add(bannerData);
+    }
+
+    String homeDir = System.getProperty("user.home");
+    if(homeDir != null) {
+      paths.add(homeDir + "/github/banner/banner_data");
+      paths.add(homeDir + "/banner/banner_data");
+      paths.add("/usr/local/banner/banner_data");
+      paths.add("/opt/banner/banner_data");
+    }
+
+    for(String path: paths) {
+      if(new File(path + "/" + BANNER_MODEL).exists()) {
+        System.err.println("BannerWrapper: " + path + " seems like a valid data path. I will use it.");
+        return path;
+      }
+    }
+
+    throw new RuntimeException("BannerWrapper ERROR: could not find a valid data directory! Set $" + BANNER_ENV + " to a valid location or use one of the defaults, e.g., ~/github/banner/banner_data/");
+  }
 
   static Properties mkDefaultProps() {
     Properties props = new Properties();
-    String bannerData = System.getenv(BANNER_ENV);
-    if(bannerData == null) {
-      throw new RuntimeException("ERROR: BannerWrapper requires the environment variable " + BANNER_ENV + "!");
-    }
 
+    String bannerData = findPath();
     props.setProperty("lemmatiserDataDirectory", bannerData + "/nlpdata/lemmatiser");
     props.setProperty("posTaggerDataDirectory", bannerData + "/nlpdata/tagger");
     props.setProperty("posTagger", "dragon.nlp.tool.HeppleTagger");
@@ -78,7 +104,7 @@ public class BannerWrapper {
     props.setProperty("useFeatureInduction", "false");
     props.setProperty("textDirection", "Forward");
 
-    props.setProperty("model", bannerData + "/banner_model.dat");
+    props.setProperty("model", bannerData + "/" + BANNER_MODEL);
 
     return props;
   }
