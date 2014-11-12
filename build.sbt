@@ -10,21 +10,21 @@ scalacOptions += "-target:jvm-1.6"
 
 javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
-dragontoolTask := { file("lib/dragontool.jar") }
-
-heptagTask := { file("lib/heptag.jar") }
-
-addArtifact(Artifact("banner", "dragontool"), dragontoolTask)
-
-addArtifact(Artifact("banner", "heptag"), heptagTask)
-
-publishArtifact in (Compile, packageSrc) := false
-
-publishArtifact in (Compile, packageDoc) := false
-
 //
 // publishing settings
 //
+
+// other jars required by BANNER
+dragontoolTask := { file("lib/dragontool.jar") }
+heptagTask := { file("lib/heptag.jar") }
+addArtifact(Artifact("banner", "dragontool"), dragontoolTask)
+addArtifact(Artifact("banner", "heptag"), heptagTask)
+
+// we should always publish sources!
+publishArtifact in (Compile, packageSrc) := true
+
+// there is no javadoc for scala projects, so we can skip this
+publishArtifact in (Compile, packageDoc) := false
 
 // publish to a maven repo
 publishMavenStyle := true
