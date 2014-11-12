@@ -22,6 +22,51 @@ publishArtifact in (Compile, packageSrc) := false
 
 publishArtifact in (Compile, packageDoc) := false
 
+//
+// publishing settings
+//
+
+// publish to a maven repo
+publishMavenStyle := true
+
+// the standard maven repository
+publishTo := {
+  val nexus = "https://oss.sonatype.org/"
+  if (isSnapshot.value)
+    Some("snapshots" at nexus + "content/repositories/snapshots")
+  else
+    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+}
+
+// let’s remove any repositories for optional dependencies in our artifact
+pomIncludeRepository := { _ => false }
+
+// mandatory stuff to add to the pom for publishing
+pomExtra := (
+  <url>https://github.com/sistanlp/banner</url>
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+	<url>https://github.com/sistanlp/banner</url>
+	<connection>https://github.com/sistanlp/banner</connection>
+  </scm>
+  <developers>
+  	<developer>
+		<id>mihai.surdeanu</id>
+		<name>Mihai Surdeanu</name>
+		<email>mihai@surdeanu.info</email>
+	</developer>
+  </developers>)
+
+//
+// end publishing settings
+//
+
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.0.M6-SNAP17" % "test",
   "junit" % "junit" % "4.10",
