@@ -16,8 +16,11 @@ javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
 // other jars required by BANNER
 dragontoolTask := { file("lib/dragontool.jar") }
+
 heptagTask := { file("lib/heptag.jar") }
+
 addArtifact(Artifact("banner", "dragontool"), dragontoolTask)
+
 addArtifact(Artifact("banner", "heptag"), heptagTask)
 
 // we should always publish sources!
