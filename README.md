@@ -7,19 +7,19 @@ This is based on a CVS snapshot from 11/27/2014.
 Installation instructions
 -------------------------
 
-* sbt publish-local
-* Add BANNER_DATA to your environment pointing to the absolute path to banner_data/ directory in this package.
+* Add `BANNER_DATA` to your environment pointing to the absolute path to the `banner_data/` directory in this package.
+* Optionally, only if changes are made to the source code in this package, run: `sbt publish-local`.
 
 Changes to the original code
 ----------------------------
 
 The following changes were made to the original Banner code:
-* Removed the following packages from src: test, edu.umass.cs.mallet.projects. They are not actually used.
-* Moved the code from src/ to src/main/java/
-* Moved all data resources (dict/, nlpdata/, regex.txt, banner.properties) under the new banner_data/ directory. Adjusted banner.properties to point to the new locations.
-* Trained a model using all BC2 training data, and saved it as banner_data/banner_model.data.
-* Added the BannerWrapper class, which creates a Banner NER with default options, based on the banner_data directory.
-* Added the BannerProperties BannerProperties.load(Properties properties) method, which is needed by the BannerWrapper class.
+* Removed the following packages from `src`: `test`, `edu.umass.cs.mallet.projects`. They are not necessary for this project.
+* Moved the code from `src/` to `src/main/java/`.
+* Moved all data resources (`dict/`, `nlpdata/`, `regex.txt`, `banner.properties`) under the new `banner_data/` directory. Adjusted `banner.properties` to point to the new locations.
+* Trained a model using all BC2 training data, and saved it as `banner_data/banner_model.dat`.
+* Added the `BannerWrapper` class, which creates a Banner NER with default options, based on the `banner_data` directory.
+* Added the `BannerProperties.load(Properties properties)` method, which is needed by the `BannerWrapper` class.
 
 Authors
 -------
