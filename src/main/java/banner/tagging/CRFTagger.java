@@ -92,7 +92,7 @@ public class CRFTagger implements Tagger
 	 * @throws IOException
 	 * @return A new instance of the CRFTagger contained in the specified file
 	 */
-	public static CRFTagger load(File f, Lemmatiser lemmatiser, dragon.nlp.tool.Tagger posTagger, Tagger preTagger) throws IOException
+	public static synchronized CRFTagger load(File f, Lemmatiser lemmatiser, dragon.nlp.tool.Tagger posTagger, Tagger preTagger) throws IOException
 	{
 		try
 		{
