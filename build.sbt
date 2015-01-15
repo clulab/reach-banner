@@ -6,10 +6,6 @@ organization := "edu.arizona.sista"
 
 scalaVersion := "2.10.4"
 
-scalacOptions += "-target:jvm-1.6"
-
-javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
-
 //
 // publishing settings
 //
@@ -55,15 +51,15 @@ pomExtra := (
     </license>
   </licenses>
   <scm>
-	<url>https://github.com/sistanlp/banner</url>
-	<connection>https://github.com/sistanlp/banner</connection>
+    <url>https://github.com/sistanlp/banner</url>
+    <connection>https://github.com/sistanlp/banner</connection>
   </scm>
   <developers>
-  	<developer>
-		<id>mihai.surdeanu</id>
-		<name>Mihai Surdeanu</name>
-		<email>mihai@surdeanu.info</email>
-	</developer>
+    <developer>
+      <id>mihai.surdeanu</id>
+      <name>Mihai Surdeanu</name>
+      <email>mihai@surdeanu.info</email>
+    </developer>
   </developers>)
 
 //
