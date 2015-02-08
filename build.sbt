@@ -4,7 +4,7 @@ version := "1.0-SNAPSHOT"
 
 organization := "edu.arizona.sista"
 
-scalaVersion := "2.10.4"
+scalaVersion := "2.11.5"
 
 //
 // publishing settings
@@ -67,8 +67,8 @@ pomExtra := (
 //
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "2.0.M6-SNAP17" % "test",
-  "junit" % "junit" % "4.10",
+  "org.scalatest" %% "scalatest" % "2.2.1" % "test",
+  "junit" % "junit" % "4.12",
   "bsh" % "bsh" % "2.0b1",
   "jdom" % "jdom" % "1.0",
   "net.sf.jwordnet" % "jwnl" % "1.4_rc3"
