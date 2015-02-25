@@ -67,9 +67,9 @@ pomExtra := (
 //
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "2.2.1" % "test",
+  "org.scalatest" %% "scalatest" % "3.0.0-SNAP4" % "test",
   "junit" % "junit" % "4.12",
-  "bsh" % "bsh" % "2.0b1",
-  "jdom" % "jdom" % "1.0",
+  "org.apache-extras.beanshell" % "bsh" % "2.0b5",
+  "org.jdom" % "jdom" % "1.1",
   "net.sf.jwordnet" % "jwnl" % "1.4_rc3"
 )
